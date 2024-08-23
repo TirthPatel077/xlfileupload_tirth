@@ -73,9 +73,11 @@ The Excel sheet should have the following columns:
 
 ![WhatsApp Image 2024-08-23 at 22 57 06_6814a846](https://github.com/user-attachments/assets/a617296b-74b3-4b1d-9bff-5edcc5ad654b)
 
-![WhatsApp Image 2024-08-23 at 22 57 23_31ffe9a0](https://github.com/user-attachments/assets/1ce47983-e083-4e72-97fd-86f5c8c8ed8b)
+![WhatsApp Image 2024-08-23 at 23 00 49_0c18f461](https://github.com/user-attachments/assets/bf1fd7af-1eb1-4805-a920-c423407ed35e)
 
+## Data in mongodb database
 
+![image](https://github.com/user-attachments/assets/3da55b29-4a37-41a5-a4c9-f2950b028d5d)
 
 
    
