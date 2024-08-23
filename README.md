@@ -38,7 +38,7 @@ The Excel sheet should have the following columns:
 1. *Clone the Repository*
 
    ```
-   git clone [https://github.com/yourusername/yourproject.git](https://github.com/TirthPatel077/xlfileupload_tirth)
+   git clone https://github.com/TirthPatel077/xlfileupload_tirth
    ```
 
 2. *Cd to Backend*
