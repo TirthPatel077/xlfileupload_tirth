@@ -1,12 +1,12 @@
 
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
-import Person from './Person.js';
+import Company from './Company.js';
 
 const contactSchema = new Schema({
   personId: {
     type: Schema.Types.ObjectId,
-    ref: 'Person', 
+    ref: 'Company', 
     required: true
   },
   contactNumber: {
