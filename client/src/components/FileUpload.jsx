@@ -43,22 +43,20 @@ export default function FileUpload() {
   };
 
   const handleUpload = async (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
+    e.preventDefault();
 
     if (!excelFile) {
       setMessage('Please select a file to upload.');
       return;
     }
 
-    // Create a new FormData object
     const formData = new FormData();
-    formData.append('file', new Blob([excelFile]), 'file.xlsx'); // Use Blob to handle the file data
+    formData.append('file', new Blob([excelFile]), 'file.xlsx');
 
     try {
-      // Make a POST request to the server with the file
       const response = await fetch('http://localhost:8080/api/v1/upload', {
         method: 'POST',
-        body: formData, // Send the FormData object
+        body: formData,
       });
 
       if (response.ok) {
@@ -75,11 +73,36 @@ export default function FileUpload() {
   return (
     <div className="wrapper">
       <h3>Upload & View Excel Sheets</h3>
-
+      <p>Upload an excel file and then click on view data button to view data in the file.</p>
+        <p>The column names of excel file should be name, email, contactNumber
+        </p>
       <form className="form-group custom-form" onSubmit={handleFileSubmit}>
         <input type="file" className="form-control" required onChange={handleFile} />
         <button type="submit" className="btn btn-success btn-md">View File</button>
-        <button type="button" className="btn btn-success btn-md" onClick={handleUpload}>Upload</button>
+        
+<div>
+  <button type="button" className="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Upload
+  </button>
+  <div className="modal fade" id="exampleModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div className="modal-dialog">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h1 className="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+        </div>
+        <div className="modal-body">
+            <p>Are you sure you want to upload the file?</p>
+        </div>
+        <div className="modal-footer">
+          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" className="btn btn-success" onClick={handleUpload}>Upload</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
         {typeError && (
           <div className="alert alert-danger" role="alert">{typeError}</div>
         )}
