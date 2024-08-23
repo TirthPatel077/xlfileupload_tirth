@@ -11,6 +11,7 @@ dotevn.config();
 connectDB();
 
 const app = express();
+app.use(express.raw({ type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', limit: '10mb' }));
 
 app.use(cors({ origin: "*", credentials: true}));
 app.use(express.json());

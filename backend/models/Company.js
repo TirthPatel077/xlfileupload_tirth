@@ -4,11 +4,6 @@ const { Schema } = mongoose;
 
 
 const companySchema = new Schema({
-  _id: {
-    type: Schema.Types.ObjectId, 
-    auto: true ,
-    unique : true
-  },
   name: {
     type: String,
     required: true

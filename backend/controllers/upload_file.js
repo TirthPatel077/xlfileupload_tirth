@@ -1,62 +1,38 @@
-import mongoose from 'mongoose';
-import XLSX from 'xlsx';
-const XLSX = require('xlsx');
-import Company from '../models/Company';
-import Contact from '../models/Contacts';
-require('./db'); // Ensure MongoDB connection is established
+import xlsx from 'xlsx';
+import Company from '../models/Company.js';
+import Contact from '../models/Contacts.js';
 
-const importData = async () => {
+
+export const uploadFile = async (req, res) => {
+
   try {
-    // Read the Excel file
-    const workbook = XLSX.readFile('data.xlsx');
-    const sheetName = workbook.SheetNames[0]; // Assumes data is in the first sheet
+    if (!req.file) {
+      return res.status(400).send('No file uploaded.');
+    }
+    const workbook = xlsx.read(req.file.buffer, { type: 'buffer' });
+    const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
-    const data = XLSX.utils.sheet_to_json(worksheet);
+    const jsonData = xlsx.utils.sheet_to_json(worksheet);
+    for (let data of jsonData) {
+      const { name, email, contactNumber } = data;
+      let company = await Company.findOne({ email });
 
-    const Companymap = new Map();
-
-    for (const row of data) {
-      const { name, email, contactNumber } = row;
-
-      // If the email field is missing, skip the row
-      if (!email) {
-        console.log('Skipping row without email');
-        continue;
-      }
-
-      // Check if person already exists
-      let company = Companymap.get(email);
       if (!company) {
-        // Create a new person
-        company = new Company({
-          name,
-          email,
-        });
-
-        // Save the person and store their ID
-        const savedcompany = await company.save();
-        Companymap.set(email, savedcompany._id);
+        company = new Company({ name, email });
+        await company.save();
       }
+      const contact = new Contact({
+        personId: company._id,
+        contactNumber,
+      });
 
-      // Extract CompanyID from map
-      const CompanyID = Companymap.get(email);
-
-      // Create a contact if contactNumber is present
-      if (contactNumber) {
-        const contact = new Contact({
-          CompanyID,
-          contactNumber
-        });
-
-        await contact.save();
-      }
+      await contact.save();
     }
 
-    console.log('Data import complete');
+    res.status(200).send('File processed and data inserted successfully!');
   } catch (error) {
-    console.error('Error importing data:', error);
+    console.error(error);
+    res.status(500).send('An error occurred while processing the file.');
   }
-};
 
-// Run the import function
-importData();
+}
